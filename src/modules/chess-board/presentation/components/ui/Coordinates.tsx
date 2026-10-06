@@ -1,17 +1,16 @@
 import clsx from "clsx";
-import { useBoardStore } from "../../stores/board-store/hook";
-import { Fragment } from "react/jsx-runtime";
+import type { BoardTheme } from "../../type";
 
-interface CoordinatesProps {
-	inside?: boolean;
+interface Props {
+	inside: boolean;
+	flipped: boolean;
+	theme: BoardTheme["coordinates"];
 }
 
 /**
  * Explanation: https://www.chess.com/article/view/chess-notation
  */
-export function RankCoordinates({ inside = false }: CoordinatesProps) {
-	const theme = useBoardStore((state) => state.theme);
-	const flipped = useBoardStore((state) => state.flipped);
+export function RankCoordinates({ inside, flipped, theme }: Props) {
 	return (
 		<div
 			className={clsx([
@@ -30,9 +29,9 @@ export function RankCoordinates({ inside = false }: CoordinatesProps) {
 						theme && {
 							color: inside
 								? i % 2 === 0
-									? theme.coordinates.foreground_white
-									: theme.coordinates.foreground_black
-								: theme.coordinates.foreground_outside,
+									? theme.foreground_white
+									: theme.foreground_black
+								: theme.foreground_outside,
 						}
 					}
 				>
@@ -43,9 +42,7 @@ export function RankCoordinates({ inside = false }: CoordinatesProps) {
 	);
 }
 
-export function FileCoordinates({ inside = false }: CoordinatesProps) {
-	const theme = useBoardStore((state) => state.theme);
-	const flipped = useBoardStore((state) => state.flipped);
+export function FileCoordinates({ inside, flipped, theme }: Props) {
 	return (
 		<div
 			className={clsx([
@@ -65,9 +62,9 @@ export function FileCoordinates({ inside = false }: CoordinatesProps) {
 						theme && {
 							color: inside
 								? i % 2 === 0
-									? theme.coordinates.foreground_black
-									: theme.coordinates.foreground_white
-								: theme.coordinates.foreground_outside,
+									? theme.foreground_black
+									: theme.foreground_white
+								: theme.foreground_outside,
 						}
 					}
 				>
@@ -75,14 +72,5 @@ export function FileCoordinates({ inside = false }: CoordinatesProps) {
 				</div>
 			))}
 		</div>
-	);
-}
-
-export function Coordinates(props: CoordinatesProps) {
-	return (
-		<Fragment>
-			<RankCoordinates {...props} />
-			<FileCoordinates {...props} />
-		</Fragment>
 	);
 }

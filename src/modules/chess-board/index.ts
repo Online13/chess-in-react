@@ -5,7 +5,6 @@ import { type PieceData, type SquareSelectData } from "./domain/value_objects";
 import {
 	type CaseType,
 	type GameState,
-	type Variant,
 	case_type,
 	game_state,
 	piece_color,
@@ -25,7 +24,6 @@ export type {
 	BoardHandler,
 	BoardTheme,
 	CaseType,
-	Variant,
 	Presets,
 };
 export {

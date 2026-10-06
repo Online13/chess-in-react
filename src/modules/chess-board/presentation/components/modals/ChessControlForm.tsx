@@ -1,8 +1,8 @@
 import {
 	variant,
 	variant_name,
-	type Variant,
 } from "@/modules/chess-board/domain/constants";
+import type { Variant } from "@/modules/chess-board/domain/type";
 import clsx from "clsx";
 import { Settings, X } from "lucide-react";
 import { Fragment, useState } from "react";
@@ -43,7 +43,7 @@ export function ChessControlForm({
 						id="variant"
 						value={currentVariant}
 						onChange={(e) =>
-							onChangeVariant(Number(e.target.value) as Variant)
+							onChangeVariant(e.target.value as Variant)
 						}
 					>
 						{Object.values(variant).map((v: Variant) => (

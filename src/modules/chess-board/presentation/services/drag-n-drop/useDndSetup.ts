@@ -1,19 +1,10 @@
-import { DragDropProvider, useDragDropManager } from "@dnd-kit/react";
+import { useDragDropManager } from "@dnd-kit/react";
 import { useSelectPiece } from "../../hooks/useSelectPiece";
 import { useSelectSquare } from "../../hooks/useSelectSquare";
 import { useBoardStore } from "../../stores/board-store/hook";
-import { useEffect, type PropsWithChildren } from "react";
+import { useEffect } from "react";
 
-export function DndProvider({ children }: PropsWithChildren) {
-	return (
-		<DragDropProvider>
-			<DragMonitor />
-			{children}
-		</DragDropProvider>
-	);
-}
-
-export function DragMonitor() {
+export function useDndSetup() {
 	const selectPiece = useSelectPiece();
 	const manager = useDragDropManager();
 	const selectSquare = useSelectSquare();
@@ -85,6 +76,4 @@ export function DragMonitor() {
 		},
 		[getPieceById, manager, selectSquare],
 	);
-
-	return null;
 }

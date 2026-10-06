@@ -57,21 +57,6 @@ export const variant_name = {
 	[variant.ANTICHESS]: "Antichess",
 } as const;
 
-export type Variant =
-	| "classic"
-	| "chess960"
-	| "crazyhouse"
-	| "bughouse"
-	| "kingofthehill"
-	| "threecheck"
-	| "antichess";
-
-export const metadata = {
-	SQUARE: { type: "square" } as const,
-	PIECE: { type: "piece" } as const,
-	SELECT: { type: "select" } as const,
-};
-
 const positionX = ["A", "B", "C", "D", "E", "F", "G", "H"] as const;
 const positionY = ["1", "2", "3", "4", "5", "6", "7", "8"] as const;
 

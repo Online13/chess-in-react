@@ -1,17 +1,18 @@
-import { useImperativeHandle, type PropsWithChildren, type Ref } from "react";
-import type { BoardHandler } from "../type";
+import { type PropsWithChildren, type Ref } from "react";
+import type { BoardHandler, BoardParams } from "../type";
 import { ChessControl } from "./control/ChessControl";
-import { useBoardStore } from "../stores/board-store/hook";
 import { BoardProvider } from "../stores/board-store/provider";
-import {
-	Coordinates,
-	FileCoordinates,
-	RankCoordinates,
-} from "./board/Coordinates";
-import { BoardPiece, BoardSelect, BoardSquare } from "./board/Elements";
-import { PieceList, SelectList, SquareList } from "./board/Lists";
-import { DndProvider } from "./board/Dnd";
+import { BoardPiece, BoardSelect, BoardSquare } from "./container/Elements";
+import { PieceList, SelectList, SquareList } from "./container/Lists";
 import { PromotionForm } from "./board/Promotion";
+import { useExposeTools } from "../hooks/useExposeTools";
+import { DndProvider } from "../services/drag-n-drop";
+import {
+	ColumnCoordinates,
+	Coordinates,
+	RowCoordinates,
+} from "./container/Coordinates";
+import { variant as cnsVariant } from "../../domain/constants";
 // import { BoardDebug } from "./board/Debug";
 
 // ----------------------------------------------------------
@@ -20,30 +21,27 @@ export function Board({
 	ref,
 	children,
 }: PropsWithChildren<{ ref: Ref<BoardHandler> }>) {
-	const reset = useBoardStore((state) => state.reset);
-	const toggleFlippled = useBoardStore((state) => state.toggleFlippled);
-	useImperativeHandle(
-		ref,
-		() => ({
-			reset() {
-				reset();
-			},
-			flipBoard() {
-				toggleFlippled();
-			},
-		}),
-		[reset, toggleFlippled],
-	);
-
-	return (
-		<DndProvider>
-			{/* <BoardDebug /> */}
-			<div className="w-full h-full relative">{children}</div>
-		</DndProvider>
-	);
+	useExposeTools(ref);
+	return <div className="w-full h-full relative">{children}</div>;
 }
 
-Board.Provider = BoardProvider;
+type RootProps = PropsWithChildren<
+	Omit<BoardParams, "variant"> & {
+		variant?: BoardParams["variant"];
+	}
+>;
+
+Board.Root = function Root({
+	children,
+	variant = cnsVariant.CLASSIC,
+	...params
+}: RootProps) {
+	return (
+		<BoardProvider variant={variant} {...params}>
+			<DndProvider>{children}</DndProvider>
+		</BoardProvider>
+	);
+};
 
 Board.SquareList = SquareList;
 Board.PieceList = PieceList;
@@ -53,10 +51,9 @@ Board.Square = BoardSquare;
 Board.Piece = BoardPiece;
 Board.Select = BoardSelect;
 
-Board.RowCoordinates = RankCoordinates;
-Board.ColumnCoordinates = FileCoordinates;
+Board.RowCoordinates = RowCoordinates;
+Board.ColumnCoordinates = ColumnCoordinates;
 Board.Coordinates = Coordinates;
 
 Board.Control = ChessControl;
-
 Board.PromotionForm = PromotionForm;

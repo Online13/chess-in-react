@@ -2,9 +2,9 @@ import { memo, useCallback, useMemo, type ReactNode } from "react";
 import type { BoardTheme, PieceRender, SelectRender } from "../../type";
 import { renderSquare } from "../render/renderSquare";
 import { useBoardStore } from "../../stores/board-store/hook";
-import { getPosition } from "@/modules/chess-board/domain/services/position";
-import { SquareView } from "../SquareView";
-import { case_type, metadata } from "@/modules/chess-board/domain/constants";
+import { getPosition, isBlackSquare } from "@/modules/chess-board/domain/services/position";
+import { SquareView } from "../ui/SquareView";
+import { case_type } from "@/modules/chess-board/domain/constants";
 import type {
 	PieceData,
 	SquareSelectData,
@@ -14,7 +14,9 @@ import { useSelectPiece } from "../../hooks/useSelectPiece";
 import { renderSelect } from "../render/renderSelect";
 import { useSelectSquare } from "../../hooks/useSelectSquare";
 import clsx from "clsx";
-import { useSquareDraggable } from "../../hooks/useSquareDraggable";
+import { useSquareDraggable } from "../../services/drag-n-drop";
+import { zIndex } from "../../data/z-index";
+import { metadata } from "../../data/metadata";
 
 type SquareviewRender = (data: {
 	theme: BoardTheme;
@@ -45,13 +47,13 @@ export const BoardSquare = memo(function Square({
 	}, [updatePromotionPiece]);
 	const Render = useMemo(() => {
 		const { x, y } = getPosition(position);
-		const black = (x + y) % 2 !== 0;
+		const black = isBlackSquare(x, y);
 		return render({ x, y, black, theme });
 	}, [position, render, theme]);
 	return (
 		<SquareView
 			{...props}
-			zIndex={10}
+			zIndex={zIndex.SQUARE}
 			position={position}
 			metadata={metadata.SQUARE}
 			onClick={handleClick}
@@ -86,7 +88,7 @@ export const BoardPiece = memo(function Piece({
 	return (
 		<SquareView
 			{...props}
-			zIndex={30}
+			zIndex={zIndex.PIECE}
 			onClick={handleSelectPiece}
 			position={piece.position}
 			metadata={metadata.PIECE}
@@ -125,7 +127,9 @@ export const BoardSelect = memo(function Select({
 			position={position}
 			onClick={handleSelectSquare}
 			metadata={metadata.SELECT}
-			zIndex={type === case_type.THREAT ? 40 : 20}
+			zIndex={
+				type === case_type.THREAT ? zIndex.SELECT_THREAT : zIndex.SELECT
+			}
 		>
 			{Render}
 		</SquareView>

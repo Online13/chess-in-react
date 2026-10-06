@@ -4,7 +4,6 @@ import {
 	game_state,
 	variant,
 	type GameState,
-	type Variant,
 } from "../../domain/constants";
 import type { BoardHandler, Presets } from "../type";
 import { Board } from "../components/Board";
@@ -18,6 +17,7 @@ import {
 	tournamentPresets,
 	walnutPresets,
 } from "../presets";
+import type { Variant } from "../../domain/type";
 
 const BOARDS: { title: string; game: Variant; preset: Presets; flipped?: boolean }[] = [
 	{ title: "Chess.com", game: variant.CLASSIC, preset: chessComPresets },
@@ -89,7 +89,7 @@ function CustomBoard({
 				</h3>
 			</div>
 			<div className="w-[80%] aspect-square relative z-10">
-				<Board.Provider
+				<Board.Root
 					flipped={flipped}
 					theme={preset.theme}
 					variant={game}
@@ -107,7 +107,7 @@ function CustomBoard({
 							<Board.Control.SeedForm />
 						</Board.Control>
 					</Board>
-				</Board.Provider>
+				</Board.Root>
 			</div>
 			<BoardGameStateDialog
 				gameState={gameState}

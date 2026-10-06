@@ -6,15 +6,14 @@ import {
 	type GameState,
 	type PieceType,
 	type Turn,
-	type Variant,
 } from "../../../domain/constants";
 import type {
 	PieceData,
 	SquareSelectData,
 } from "../../../domain/value_objects";
-import type { BoardTheme } from "../../type";
+import type { BoardParams, BoardTheme } from "../../type";
 import { defaultTheme } from "../../data";
-import type { VariantOption } from "@/modules/chess-board/domain/type";
+import type { Variant } from "@/modules/chess-board/domain/type";
 import { getGameService } from "@/modules/chess-board/domain/services/game-service";
 
 interface State {
@@ -67,18 +66,11 @@ interface Action {
 	getPieceById: (id: string) => PieceData | null;
 }
 
-export interface CreateBoardStoreArgs extends VariantOption {
-	data?: PieceData[];
-	theme?: BoardTheme;
-	flipped?: boolean;
-	onGameStateChange?: (gameState: GameState) => void;
-}
-
 export interface BoardState extends State, Action {}
 
 export type Store = ReturnType<typeof createBoardStore>;
 
-export const createBoardStore = (args: CreateBoardStoreArgs) => {
+export const createBoardStore = (args: BoardParams) => {
 	const defaultState: State = {
 		seed: 0,
 		data: [],

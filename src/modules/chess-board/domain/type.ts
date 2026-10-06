@@ -1,7 +1,4 @@
-export type VariantOption = {
-	variant: Variant;
-	seed?: number;
-};
+
 
 export type Variant =
 	| "classic"

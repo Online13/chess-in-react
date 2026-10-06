@@ -2,13 +2,13 @@ import { createProvider } from "@/lib/create-provider";
 import {
 	variant,
 	variant_name,
-	type Variant,
 } from "@/modules/chess-board/domain/constants";
 import { Input, Popover, Select } from "@base-ui/react";
 import clsx from "clsx";
 import { CheckIcon, ChevronsUpDownIcon, Settings } from "lucide-react";
 import { useState, type PropsWithChildren } from "react";
 import { useBoardStore } from "../../stores/board-store/hook";
+import type { Variant } from "@/modules/chess-board/domain/type";
 
 interface ChessControlStore {
 	seed: number;

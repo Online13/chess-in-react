@@ -1,6 +1,7 @@
-import { piece_color, turn_state, type Variant } from "../../domain/constants";
+import { piece_color, turn_state } from "../../domain/constants";
 import { getGameService } from "../../domain/services/game-service";
 import { Result } from "../../domain/services/result-type";
+import type { Variant } from "../../domain/type";
 import type { PieceData, SquareSelectData } from "../../domain/value_objects";
 
 interface View {

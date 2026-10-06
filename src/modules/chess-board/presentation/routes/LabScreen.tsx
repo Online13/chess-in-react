@@ -9,7 +9,7 @@ import {
 } from "../../domain/constants";
 import { Board } from "../components/Board";
 import { BoardGameStateDialog } from "@/components/ResultDialog";
-import { chessComPresets } from "../presets/chess-com-presets";
+import { nightPresets } from "../presets/night-presets";
 import type { BoardHandler } from "../type";
 // import type { PieceData } from "../../domain/value_objects";
 
@@ -46,18 +46,17 @@ function CustomBoard() {
 	return (
 		<div className="">
 			<div className="h-[70vh] aspect-square relative z-10">
-				<Board.Provider
-					// data={data}
-					flipped
-					variant={variant.CLASSIC}
-					theme={chessComPresets.theme}
+				<Board.Root
+					flipped={false}
+					variant={variant.CHESS960}
+					theme={nightPresets.theme}
 					onGameStateChange={handleGameStateChange}
 				>
 					<Board ref={ref}>
 						<Board.PromotionForm />
 						<Board.PieceList />
 						<Board.SelectList
-							render={chessComPresets.renderSelect}
+							render={nightPresets.renderSelect}
 						/>
 						<Board.SquareList />
 						<Board.Coordinates />
@@ -66,7 +65,7 @@ function CustomBoard() {
 							<Board.Control.SeedForm />
 						</Board.Control>
 					</Board>
-				</Board.Provider>
+				</Board.Root>
 			</div>
 			<BoardGameStateDialog
 				gameState={gameState}

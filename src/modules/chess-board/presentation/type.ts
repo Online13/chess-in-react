@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { PieceData, SquareSelectData } from "../domain/value_objects";
-
+import type { Variant } from "../domain/type";
+import type { GameState } from "../domain/constants";
 export type PieceRender = (
 	data: Pick<PieceData, "type" | "color">,
 ) => ReactNode;
@@ -47,4 +48,13 @@ export interface BoardHandler {
 export interface Presets {
 	theme: BoardTheme;
 	renderSelect: SelectRender;
+}
+
+export interface BoardParams {
+	variant: Variant;
+	seed?: number;
+	data?: PieceData[];
+	theme: BoardTheme;
+	flipped?: boolean;
+	onGameStateChange?: (gameState: GameState) => void;
 }

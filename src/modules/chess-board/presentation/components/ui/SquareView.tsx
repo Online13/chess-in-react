@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { memo, type ComponentProps } from "react";
-import { useDisplayPosition } from "../hooks/useDisplayPosition";
+import { useDisplayPosition } from "../../hooks/useDisplayPosition";
 
 interface Props extends ComponentProps<"div"> {
 	position: number;

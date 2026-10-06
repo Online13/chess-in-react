@@ -5,7 +5,6 @@ import { useBoardStore } from "../stores/board-store/hook";
 export function useDisplayPosition(position: number) {
 	const flipped = useBoardStore((s) => s.flipped);
 	return useMemo(() => {
-		const { x, y } = getPosition(position);
-		return flipped ? { x: 7 - x, y: 7 - y } : { x, y };
+		return getPosition(position, flipped);
 	}, [flipped, position]);
 }
